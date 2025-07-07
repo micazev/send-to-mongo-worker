@@ -39,6 +39,21 @@ class ScraperAnalytics:
         # assicurarsi che la cartella analytics esista
         os.makedirs(self.analytics_dir, exist_ok=True)
 
+    # ------------------------------------------------------------------
+    # Context manager protocol
+    # ------------------------------------------------------------------
+    def __enter__(self) -> "ScraperAnalytics":
+        """Start tracking metrics when entering the context."""
+        self.start_scraping()
+        return self
+
+    def __exit__(self, exc_type, exc, tb) -> None:
+        """Finish tracking and persist analytics on exit."""
+        self.end_scraping()
+        # Propagate any exception to the caller
+        return False
+
+
     def start_scraping(self) -> None:
         """Begin (iniziare) tracking of time and 메모리 (memory)"""
         self.start_time = time.time()

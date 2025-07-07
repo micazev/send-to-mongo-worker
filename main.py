@@ -14,8 +14,6 @@ if __name__ == "__main__":
     client = get_mongo_client()
     db = client[MONGO_DATABASE]
     collection = db[MONGO_COLLECTION]
-    db = client["busca_leiloes"]
-    collection = db["tabelaDeImoveis"]
     repo = PropertyRepository(collection)
 
     # usa AnalyticsUploader per misurare (to measure) e salvare metriche

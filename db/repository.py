@@ -1,11 +1,10 @@
 # db/repository.py
-# 책임: all CRUD for “imóvel”
+# 책임: all CRUD for "imóvel"
 # Notes: encapsulates MongoDB operations for property documents
 
 import logging
 from typing import Dict, Optional
 from pymongo.collection import Collection
-from pymongo.results import ReplaceOneResult
 from pymongo.errors import DuplicateKeyError, PyMongoError
 
 logger = logging.getLogger(__name__)
@@ -24,7 +23,7 @@ class PropertyRepository:
         """
         filter_criteria = {'link_imovel': document.get('link_imovel')}
         try:
-            result: ReplaceOneResult = self.collection.replace_one(
+            result = self.collection.replace_one(
                 filter_criteria,
                 document,
                 upsert=True

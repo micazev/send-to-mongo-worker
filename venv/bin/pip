@@ -1,5 +1,5 @@
 #!/bin/sh
-'''exec' "/Users/micazev/Documents/busca leilao imoveis/service-sent-to-mongo/venv/bin/python3" "$0" "$@"
+'''exec' "/Users/micazev/Documents/busca leilao imoveis/service-sent-to-mongo/venv/bin/python3.13" "$0" "$@"
 ' '''
 # -*- coding: utf-8 -*-
 import re

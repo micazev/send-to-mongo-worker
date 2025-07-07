@@ -1,5 +1,5 @@
 # MongoDB driver
-pymongo>=4.0.0
+pymongo>=4.3.0
 
 # System monitoring (optional)
 psutil>=5.8.0
