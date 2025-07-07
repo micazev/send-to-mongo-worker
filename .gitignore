@@ -3,13 +3,14 @@
 .env.local
 .env.*
 
+
 # Python cache & bytecode
 __pycache__/
 *.py[cod]
 *$py.class
 
 # Data dumps / analytics
-/database/*.json
+/data/*.json
 /analytics/*.json
 
 # IDE configurations
