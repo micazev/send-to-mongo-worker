@@ -1,0 +1,14 @@
+# MongoDB driver
+pymongo>=4.0.0
+
+# System monitoring (optional)
+psutil>=5.8.0
+
+# Standard library imports (built-in, não precisam ser instalados):
+# - os
+# - logging
+# - time
+# - json
+# - datetime
+# - pathlib
+# - typing 
