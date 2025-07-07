@@ -6,7 +6,8 @@ import logging
 from pathlib import Path
 from typing import List
 import json
-
+from config import DATABASE_DIR, MONGO_DATABASE, MONGO_COLLECTION
+from db.client import get_mongo_client
 from analytics.uploader import ScraperAnalytics, print_success_summary
 from models.mapper import map_raw_imovel
 from db.repository import PropertyRepository
@@ -61,7 +62,7 @@ if __name__ == "__main__":
 
     logging.basicConfig(level=logging.INFO)
     client = get_mongo_client()
-    repo = PropertyRepository(client["busca_leiloes"]["tabelaDeImoveis"])
+    repo = PropertyRepository(client[MONGO_DATABASE][MONGO_COLLECTION])
     with ScraperAnalytics("local_to_mongodb") as analytics:
         process_folder(DATABASE_DIR, repo, analytics)
         print_success_summary("local_to_mongodb", analytics.total_items_identified, {"json": None})

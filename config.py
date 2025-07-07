@@ -14,6 +14,9 @@ from pathlib import Path
 MONGO_URI = os.getenv("MONGO_URI")
 DATABASE_DIR = Path(os.getenv("DATABASE_DIR", "database"))
 ANALYTICS_DIR = Path(os.getenv("ANALYTICS_DIR", "analytics"))
+MONGO_DATABASE = os.getenv("MONGO_DATABASE", "auction_data")
+MONGO_COLLECTION = os.getenv("MONGO_COLLECTION", "properties")
+
 
 # Ensure directories exist
 DATABASE_DIR.mkdir(parents=True, exist_ok=True)

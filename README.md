@@ -68,6 +68,8 @@ export LOG_LEVEL="INFO"
 | Variable | Description | Default |
 |----------|-------------|---------|
 | `MONGO_URI` | MongoDB connection URI | Required |
+| `MONGO_DATABASE` | MongoDB database name | `auction_data` |
+| `MONGO_COLLECTION` | MongoDB collection name | `properties` |
 | `DATABASE_DIR` | Directory with JSON files | `database` |
 | `ANALYTICS_DIR` | Directory to save analytics | `analytics` |
 | `LOG_LEVEL` | Log level | `INFO` |
