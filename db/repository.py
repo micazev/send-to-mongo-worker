@@ -3,7 +3,7 @@
 # Notes: encapsulates MongoDB operations for property documents
 
 import logging
-from typing import Dict, Optional
+from typing import Dict, Optional, Set, List
 from pymongo.collection import Collection
 from pymongo.errors import DuplicateKeyError, PyMongoError
 
@@ -65,3 +65,23 @@ class PropertyRepository:
         except PyMongoError as e:
             logger.error(f"Error deleting imóvel: {e}")
             return False
+
+    def deactivate_missing(self, link_leiloeiro: str, active_links: Set[str]) -> int:
+        """Set status='INATIVO' for properties of the given leiloeiro whose
+        link_imovel is not present in ``active_links``. Returns the number of
+        modified documents."""
+        try:
+            result = self.collection.update_many(
+                {
+                    'link_leiloeiro': link_leiloeiro,
+                    'link_imovel': {'$nin': list(active_links)}
+                },
+                {'$set': {'status': 'INATIVO'}}
+            )
+            logger.info(
+                f"Deactivated {result.modified_count} imóveis for leiloeiro {link_leiloeiro}"
+            )
+            return result.modified_count
+        except PyMongoError as e:
+            logger.error(f"Error deactivating imóveis for {link_leiloeiro}: {e}")
+            return 0

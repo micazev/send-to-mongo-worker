@@ -103,6 +103,8 @@ python -c "from db.client import get_mongo_client; get_mongo_client()"
 - Secure MongoDB connection
 - CRUD operations through `PropertyRepository`
 - Upsert based on `link_imovel` as unique identifier
+- Status synchronization: records from the same `link_leiloeiro` not present in
+  the new batch are automatically marked as `INATIVO`
 - Error handling and duplicate treatment
 
 ### 3. **Analytics**

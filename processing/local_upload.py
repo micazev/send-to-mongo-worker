@@ -4,7 +4,7 @@
 
 import logging
 from pathlib import Path
-from typing import List
+from typing import List, Dict, Set
 import json
 from config import DATABASE_DIR, MONGO_DATABASE, MONGO_COLLECTION
 from db.client import get_mongo_client
@@ -21,19 +21,29 @@ def process_file(path: Path, repo: PropertyRepository, analytics: ScraperAnalyti
     try:
         data = json.loads(path.read_text(encoding="utf-8"))
         analytics.increment_identified(len(data))
+        active_map: Dict[str, Set[str]] = {}
         for raw in data:
             try:
                 doc = map_raw_imovel(raw)
+                leiloeiro = doc.get("link_leiloeiro", "")
+                active_map.setdefault(leiloeiro, set()).add(doc.get("link_imovel"))
                 result = repo.upsert(doc)
                 if result.get("success"):
                     analytics.increment_success()
                 else:
                     analytics.increment_failure()
-                    analytics.add_error("upsert_failure", result.get("details", ""), doc.get("link_imovel"))
+                    analytics.add_error(
+                        "upsert_failure",
+                        result.get("details", ""),
+                        doc.get("link_imovel"),
+                    )
             except Exception as e:
                 analytics.increment_failure()
                 analytics.add_error("processing_error", str(e), raw.get("link_imovel"))
                 logger.error(f"Error processing record: {e}")
+        # Deactivate items not present in this batch per leiloeiro
+        for leiloeiro, links in active_map.items():
+            repo.deactivate_missing(leiloeiro, links)
         # archive or delete file to avoid re-processing
         archive_dir = path.parent / "processed"
         archive_dir.mkdir(exist_ok=True)
